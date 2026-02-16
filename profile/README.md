@@ -2,9 +2,11 @@
 
 This organization hosts repositories for Hearst Digital Japan.
 
-- Individual GitHub accounts only
-- Display name: Name (HDJ / Company)
-- 2FA required
+- Individual GitHub accounts only (suffix: `-hdj` for employees)
+- Display name: `Name (HDJ / Company)`
+- 2FA required for all members
+- Branch protection enabled on default branches
+- All access managed via Teams (minimum privilege)
 
-👉 See full guidelines:
+For full guidelines, see:
 https://github.com/Hearst-Fujingaho-JP/.github
