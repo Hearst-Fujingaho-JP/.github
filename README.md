@@ -49,7 +49,7 @@
 
   例：Taku Matsumoto(HDJ)
 
-* **社員以外：**
+* **社員以外（推奨）：**
 
   ```
   First Name Last Name(会社名)
