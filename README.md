@@ -19,7 +19,7 @@
 * HDJ と契約関係にある業務委託・外部ベンダー
 * 一時的に参加するプロジェクトメンバー
 
-※ 本 Organization への参加は、管理者（Admin ロールを持つメンバー）の承認が必要です。
+※ 本 Organization への参加は、Organization Owner（IT 部）の承認が必要です。
 
 ---
 
@@ -30,7 +30,7 @@
 * HDJ 社員は **原則として当社用のアカウントを作成し利用** してください
 * 個人の既存アカウントを業務に利用することは禁止します
 * 共有アカウントの作成および利用は禁止です
-* Bot / CI / 自動化用途のアカウントは例外として許可しますが、管理者の承認を必要とします
+* Bot / CI / 自動化用途のアカウントは例外として許可しますが、Organization Owner（IT 部）の承認を必要とします
 
 ### 3.2 User name
 
@@ -76,20 +76,53 @@
 
 ## 4. Organization レベルの設定方針
 
-### 4.1 メンバーの基本権限
+### 4.1 権限階層の基本方針
+
+当社のセキュリティポリシーにより、Organization の特権管理者権限（Owner）は **IT 部のみ** が保有します。
+一方、IT 部が直接関与しないプロジェクトでも各チームが自律的に運用できるよう、GitHub の権限委任機能を活用します。
+
+| 権限層 | 対象者 | できること |
+|---|---|---|
+| **Organization Owner** | IT 部メンバー | Org 設定変更、リポジトリ作成/削除、Rulesets 管理、Team 作成 |
+| **Team Maintainer** | 各プロジェクトのリーダー | 担当 Team のメンバー追加/削除 |
+| **Repository Maintain** | `{project}-managers` Team | PR 管理、ブランチ管理、リポジトリ設定の一部 |
+| **Repository Write** | `{project}` Team | コード変更、PR 作成、Issue 管理 |
+
+### 4.2 IT 部への依頼が必要な操作
+
+以下の操作は Organization Owner 権限が必要なため、IT 部への依頼が必要です。
+依頼は Slack の `#github-admin` チャンネルまたはメール（it-is@hearst.co.jp）で受け付けます。
+
+* リポジトリの新規作成・削除・可視性変更
+* Team の新規作成・削除
+* Outside Collaborator の招待
+* Organization Rulesets の変更
+* Organization 設定の変更
+
+### 4.3 プロジェクトチームで完結できる操作
+
+以下の操作は Organization Owner 権限なしで実行でき、各プロジェクトチームの裁量で行えます。
+
+* Team メンバーの追加・削除（Team Maintainer が実施）
+* Pull Request のレビュー・マージ
+* ブランチの作成・削除（保護対象外のブランチ）
+* Issue・Project の管理
+* リポジトリの設定変更（Maintain 権限の範囲内）
+
+### 4.4 メンバーの基本権限
 
 | 設定項目 | 推奨値 | 説明 |
 |---|---|---|
 | デフォルトリポジトリ権限 | `None` | メンバーは Team 経由でのみリポジトリにアクセス |
-| リポジトリ作成 | **Admin のみ** | メンバーが自由にリポジトリを作成することを禁止 |
-| リポジトリ削除 | **Admin のみ** | 誤削除防止のため、メンバーによる削除を禁止 |
-| リポジトリ可視性の変更 | **Admin のみ** | Private → Public への意図しない変更を防止 |
-| 外部コラボレーターの招待 | **Admin のみ** | 権限管理を管理者に集約 |
+| リポジトリ作成 | **Owner のみ** | リポジトリ作成は IT 部が対応 |
+| リポジトリ削除 | **Owner のみ** | 誤削除防止のため、IT 部のみが実施 |
+| リポジトリ可視性の変更 | **Owner のみ** | Private → Public への意図しない変更を防止 |
+| 外部コラボレーターの招待 | **Owner のみ** | 権限管理を IT 部に集約 |
 | リポジトリのフォーク | **禁止** | コードの意図しない外部流出を防止 |
-| Pages の作成 | **Admin のみ** | 意図しない公開コンテンツの作成を防止 |
-| Team の作成 | **Admin のみ** | Team 構成の一元管理 |
+| Pages の作成 | **Owner のみ** | 意図しない公開コンテンツの作成を防止 |
+| Team の作成 | **Owner のみ** | Team の作成は IT 部が対応（日常運用は Team Maintainer に委任） |
 
-### 4.2 セキュリティ機能（新規リポジトリのデフォルト）
+### 4.5 セキュリティ機能（新規リポジトリのデフォルト）
 
 | 設定項目 | 推奨値 | 説明 |
 |---|---|---|
@@ -113,21 +146,30 @@
 
 ### 5.2 Team 構成のガイドライン
 
-* プロジェクトまたは機能領域単位で Team を作成します
+* プロジェクトまたは機能領域単位で Team を作成します（作成は IT 部に依頼）
 * Team は以下の命名規則に従ってください：
 
   ```
   {プロジェクト名}                 … 一般メンバー（Write 権限）
-  {プロジェクト名}-managers        … 管理者（Maintain 権限）
+  {プロジェクト名}-managers        … プロジェクト管理者（Maintain 権限）
   ```
 
 * ベンダーは専用の Team に所属させ、必要なリポジトリのみにアクセスを許可します
-* 不要になった Team は速やかに削除またはアーカイブします
+* 不要になった Team は速やかに削除またはアーカイブします（IT 部に依頼）
 
-### 5.3 Outside Collaborator
+### 5.3 Team Maintainer の活用
+
+* IT 部が Team を作成する際に、プロジェクトリーダーを **Team Maintainer** に指定します
+* Team Maintainer は以下の操作が可能です：
+  * 担当 Team へのメンバー追加・削除
+  * Team の説明（Description）の編集
+* Team Maintainer は Organization Owner 権限を必要としないため、セキュリティポリシーに準拠しつつ日常運用を各チームに委任できます
+* Team Maintainer の指定・変更は IT 部に依頼してください
+
+### 5.4 Outside Collaborator
 
 * Outside Collaborator は原則として使用せず、Team に所属させることを推奨します
-* やむを得ず Outside Collaborator として招待する場合は、管理者の承認と期限の設定を必要とします
+* やむを得ず Outside Collaborator として招待する場合は、Organization Owner（IT 部）の承認と期限の設定を必要とします
 * **四半期ごと** に Outside Collaborator の棚卸しを実施します
 
 ---
@@ -182,7 +224,7 @@
 ### 6.3 リポジトリの可視性
 
 * 原則として **Private** とします
-* Public にする必要がある場合は、管理者の承認を必要とします
+* Public にする必要がある場合は、Organization Owner（IT 部）の承認を必要とします
 * Public リポジトリには機密情報が含まれていないことを確認してください
 
 ### 6.4 リポジトリのライフサイクル
@@ -204,9 +246,18 @@
 
 ## 7. ブランチ保護ルール
 
-### 7.1 デフォルトブランチ（main / master）の保護
+### 7.1 Organization Rulesets の活用
 
-すべてのアクティブなリポジトリのデフォルトブランチに、以下の保護ルールを設定してください：
+ブランチ保護は **Organization Rulesets**（Organization レベルのルールセット）で一括管理します。
+Rulesets は Organization Owner（IT 部）が設定・管理し、対象リポジトリに自動適用されるため、
+各プロジェクトチームがリポジトリごとに設定する必要はありません。
+
+※ リポジトリ単位の Branch protection rules ではリポジトリの Admin 権限が必要ですが、
+Organization Rulesets を利用することで、各チームに Admin 権限を付与せずにブランチ保護を実現できます。
+
+### 7.2 デフォルトブランチ（main / master）の保護
+
+Organization Rulesets で、すべてのアクティブなリポジトリのデフォルトブランチに以下のルールを適用します：
 
 | 設定項目 | 推奨値 | 説明 |
 |---|---|---|
@@ -214,14 +265,14 @@
 | Dismiss stale pull request approvals | **有効** | 新しい push があった場合、過去の承認を取り消し |
 | Require status checks to pass | **有効（CI がある場合）** | CI/CD のパスを必須化 |
 | Require branches to be up to date | **有効** | マージ前にブランチの最新化を必須化 |
-| Include administrators | **有効** | 管理者にも同じルールを適用 |
-| Allow force pushes | **無効** | 履歴の改変を禁止 |
-| Allow deletions | **無効** | デフォルトブランチの削除を禁止 |
+| Enforce for administrators | **有効** | 管理者にも同じルールを適用 |
+| Block force pushes | **有効** | 履歴の改変を禁止 |
+| Block deletions | **有効** | デフォルトブランチの削除を禁止 |
 
-### 7.2 適用対象
+### 7.3 適用対象
 
 * 本番環境にデプロイされるリポジトリは **必須** とします
-* 個人の検証用・一時的なリポジトリは任意とします
+* 個人の検証用・一時的なリポジトリは Rulesets の対象から除外できます（IT 部に依頼）
 
 ---
 
@@ -265,7 +316,7 @@
   * データベース接続文字列
   * 秘密鍵・証明書
   * 個人情報
-* 万が一 commit してしまった場合は、直ちに該当シークレットを無効化・ローテーションし、管理者に報告してください（履歴から完全に削除するには別途対応が必要です）
+* 万が一 commit してしまった場合は、直ちに該当シークレットを無効化・ローテーションし、Organization Owner（IT 部）に報告してください（履歴から完全に削除するには別途対応が必要です）
 
 ---
 
@@ -273,19 +324,21 @@
 
 ### 10.1 参加時
 
-* 管理者の招待をもって参加とします
-* 対象プロジェクトの Team、またはベンダーの組織構造に合わせた Team に所属させます
+* Organization への招待は IT 部（Organization Owner）が実施します
+* 招待後、Team への所属は **Team Maintainer**（プロジェクトリーダー）が対応できます
 * 付与する権限は業務に必要な最小限とします（原則 Write まで）
 * 参加時に本ガイドラインを周知し、遵守の同意を得てください
 
 ### 10.2 契約期間中
 
-* 権限の変更が必要な場合は、管理者に申請してください
-* プロジェクト異動時は、旧プロジェクトの Team から削除し、新プロジェクトの Team に追加します
+* Team 内の権限変更（メンバーの追加・削除）は Team Maintainer が対応できます
+* Organization レベルの権限変更が必要な場合は、IT 部に申請してください
+* プロジェクト異動時は、旧プロジェクトの Team から削除し、新プロジェクトの Team に追加します（Team Maintainer が対応）
 
 ### 10.3 契約終了・退出時
 
-* 契約終了日をもって Organization から削除します
+* 契約終了日をもって Organization から削除します（IT 部が実施）
+* Team Maintainer は契約終了前に、担当 Team からのメンバー削除を実施してください
 * 関連する Team メンバーシップもすべて削除されます
 * 個人アカウント自体は削除しません（GitHub の仕様上、削除権限がありません）
 * Issue / PR の履歴は保持されます
@@ -304,7 +357,7 @@
 
 ### 11.1 報告対象
 
-以下の事象を発見した場合は、速やかに管理者へ報告してください：
+以下の事象を発見した場合は、速やかに Organization Owner（IT 部）へ報告してください：
 
 * リポジトリへの不正アクセスの疑い
 * 機密情報（トークン、パスワード等）の漏洩
@@ -314,13 +367,13 @@
 
 ### 11.2 報告先
 
-* **一次報告先：** Organization Admin メンバー（Slack / メール）
+* **一次報告先：** Organization Owner メンバー（Slack `#github-admin` / メール）
 * **IT 部門：** it-is@hearst.co.jp
 
 ### 11.3 対応フロー
 
-1. 発見者が管理者に報告
-2. 管理者が影響範囲を調査
+1. 発見者が Organization Owner（IT 部）に報告
+2. Organization Owner が影響範囲を調査
 3. 必要に応じてアクセス権の一時停止、シークレットのローテーション等の緊急対応を実施
 4. 原因の特定と再発防止策の策定
 5. 関係者への周知
@@ -335,22 +388,25 @@
   * リポジトリの作成・削除・可視性変更
   * ブランチ保護ルールの変更
   * Outside Collaborator の招待
-  * 管理者権限の変更
+  * Organization Owner 権限の変更
 
 ---
 
 ## 13. 本ルールの変更について
 
 * 本ドキュメントの内容は、必要に応じて更新されます
-* 変更は Pull Request を通じて行い、Admin メンバーのレビューを経て反映します
+* 変更は Pull Request を通じて行い、Organization Owner メンバーのレビューを経て反映します
 * 重要な変更がある場合は、全メンバーへ別途周知を行います
 
 ---
 
 ## 14. 問い合わせ先
 
-* **GitHub Organization 管理者（Admin）：** masashirohiroi, michi55, mikikomiura, taku-hdj, yasuhirokojima-ops
-* **HDJ IT 部門：** it-is@hearst.co.jp
+* **GitHub Organization Owner（IT 部）：** リポジトリ作成、Team 作成、Org 設定変更等の依頼先
+  * Slack: `#github-admin`
+  * メール: it-is@hearst.co.jp
+* **GitHub Organization Owner メンバー：** masashirohiroi, michi55, mikikomiura, taku-hdj, yasuhirokojima-ops
+* **各プロジェクトの Team Maintainer：** Team メンバーの追加・削除等の日常運用
 
 ---
 
