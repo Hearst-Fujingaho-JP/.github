@@ -180,7 +180,7 @@ Team は **組織（部署）単位** と **プロジェクト単位** の 2 種
 
   ```
   tx-fulfillment … TX本部フルフィルメント部
-  ├── tx-fulfillment-managers …　フルフィルメント部マネージャー（Team Maintain） 
+  ├── tx-fulfillment-managers …　フルフィルメント部マネージャー（Maintain 権限） 
   ├── tx-system  　　　　　　　… システム課（Write 権限）
   └── tx-proc-imp             … プロセス改善課
   ```
