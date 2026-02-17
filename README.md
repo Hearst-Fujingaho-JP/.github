@@ -179,11 +179,10 @@ Team は **組織（部署）単位** と **プロジェクト単位** の 2 種
 * `-managers` Team には **Maintain 権限**（必要に応じて Admin 権限）を付与します
 
   ```
-  hdj                              … 全社（Read / Write）
-  ├── hdj-digital                  … デジタル部門
-  │   ├── hdj-digital-engineering  … エンジニアリング（Write 権限）
-  │   └── hdj-digital-managers     … デジタル部門管理者（Maintain 権限）
-  └── hdj-editorial                … 編集部門
+  tx-fulfillment … TX本部フルフィルメント部
+  ├── tx-fulfillment-managers …　フルフィルメント部マネージャー（Team Maintain） 
+  ├── tx-system  　　　　　　　… システム課（Write 権限）
+  └── tx-proc-imp             … プロセス改善課
   ```
 
 #### プロジェクト単位の Team
