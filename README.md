@@ -84,6 +84,7 @@
 | 権限層 | 対象者 | できること |
 |---|---|---|
 | **Organization Owner** | IT 部メンバー | Org 設定変更、リポジトリ作成/削除、Rulesets 管理、Team 作成 |
+| **Repository Admin** | 業務上必要なプロジェクト管理者 | Webhooks・Secrets 管理、リポジトリ設定の変更（※ IT 部の承認が必要） |
 | **Team Maintainer** | 各プロジェクトのリーダー | 担当 Team のメンバー追加/削除 |
 | **Repository Maintain** | `{project}-managers` Team | PR 管理、ブランチ管理、リポジトリ設定の一部 |
 | **Repository Write** | `{project}` Team | コード変更、PR 作成、Issue 管理 |
@@ -91,15 +92,35 @@
 ### 4.2 IT 部への依頼が必要な操作
 
 以下の操作は Organization Owner 権限が必要なため、IT 部への依頼が必要です。
-依頼は Slack の `#github-admin` チャンネルまたはメール（it-is@hearst.co.jp）で受け付けます。
+依頼は [Microsoft Teams の help-github チャンネル](https://teams.microsoft.com/l/channel/19%3Ad70b44e383e84df09d7632d7c5b61673%40thread.tacv2/help-github?groupId=f71761c3-8b43-47e8-93d0-8d143f393647&tenantId=cbb25906-c027-4adc-bac7-c4fc6b93690b)またはメール（it-is@hearst.co.jp）で受け付けます。
 
 * リポジトリの新規作成・削除・可視性変更
 * Team の新規作成・削除
 * Outside Collaborator の招待
 * Organization Rulesets の変更
 * Organization 設定の変更
+* リポジトリ Admin 権限の付与（下記 4.3 参照）
 
-### 4.3 プロジェクトチームで完結できる操作
+### 4.3 リポジトリ Admin 権限の付与
+
+リポジトリの Admin 権限は、Organization Owner（特権管理者）には該当しませんが、最小権限の原則に基づき、**Maintain 権限では不足する業務上の正当な理由がある場合に限り** 付与できます。
+
+**Admin 権限が必要となる主なケース：**
+
+* Webhooks の設定・管理（CI/CD 連携等）
+* Repository secrets / Variables の管理（GitHub Actions 等）
+* Deploy keys の管理
+* リポジトリ単位の GitHub App のインストール
+
+**付与の手続き：**
+
+1. プロジェクトリーダーが IT 部に申請（必要な理由を明記）
+2. IT 部が承認し、対象の Team にリポジトリ Admin 権限を設定
+3. **四半期ごと** の棚卸し時に、Admin 権限の必要性を再確認
+
+※ Maintain 権限で業務が遂行できる場合は、Admin 権限を付与しません。
+
+### 4.4 プロジェクトチームで完結できる操作
 
 以下の操作は Organization Owner 権限なしで実行でき、各プロジェクトチームの裁量で行えます。
 
@@ -107,9 +128,9 @@
 * Pull Request のレビュー・マージ
 * ブランチの作成・削除（保護対象外のブランチ）
 * Issue・Project の管理
-* リポジトリの設定変更（Maintain 権限の範囲内）
+* リポジトリの設定変更（Maintain または Admin 権限の範囲内）
 
-### 4.4 メンバーの基本権限
+### 4.5 メンバーの基本権限
 
 | 設定項目 | 推奨値 | 説明 |
 |---|---|---|
@@ -122,7 +143,7 @@
 | Pages の作成 | **Owner のみ** | 意図しない公開コンテンツの作成を防止 |
 | Team の作成 | **Owner のみ** | Team の作成は IT 部が対応（日常運用は Team Maintainer に委任） |
 
-### 4.5 セキュリティ機能（新規リポジトリのデフォルト）
+### 4.6 セキュリティ機能（新規リポジトリのデフォルト）
 
 | 設定項目 | 推奨値 | 説明 |
 |---|---|---|
@@ -144,17 +165,43 @@
 * 権限は **Team 単位** で付与します
 * Role（Read / Write / Maintain / Admin）は **最小権限の原則** を適用します
 
-### 5.2 Team 構成のガイドライン
+### 5.2 Team の種類
 
-* プロジェクトまたは機能領域単位で Team を作成します（作成は IT 部に依頼）
-* Team は以下の命名規則に従ってください：
+Team は **組織（部署）単位** と **プロジェクト単位** の 2 種類を使い分けます。
+いずれも作成は IT 部に依頼してください。
+
+#### 組織（部署）単位の Team
+
+部署の階層構造に対応した Team を作成し、GitHub の親子 Team 機能で階層化します。
+
+* 部署 Team には **Write 以下** の権限を付与します
+* Maintain 以上の権限が必要な階層には、対応する **`-managers` Team** を作成します
+* `-managers` Team には **Maintain 権限**（必要に応じて Admin 権限）を付与します
+
+  ```
+  hdj                              … 全社（Read / Write）
+  ├── hdj-digital                  … デジタル部門
+  │   ├── hdj-digital-engineering  … エンジニアリング（Write 権限）
+  │   └── hdj-digital-managers     … デジタル部門管理者（Maintain 権限）
+  └── hdj-editorial                … 編集部門
+  ```
+
+#### プロジェクト単位の Team
+
+部署横断のプロジェクトや、ベンダーとの協業には、プロジェクト単位の Team を作成します。
 
   ```
   {プロジェクト名}                 … 一般メンバー（Write 権限）
   {プロジェクト名}-managers        … プロジェクト管理者（Maintain 権限）
   ```
 
-* ベンダーは専用の Team に所属させ、必要なリポジトリのみにアクセスを許可します
+#### 権限の原則
+
+| Team の種類 | サフィックスなし | `-managers` |
+|---|---|---|
+| 付与可能な最大権限 | **Write** | **Maintain**（申請により Admin も可、セクション 4.3 参照） |
+
+* ベンダーは専用の Team（プロジェクト単位または組織単位）に所属させ、必要なリポジトリのみにアクセスを許可します
 * 不要になった Team は速やかに削除またはアーカイブします（IT 部に依頼）
 
 ### 5.3 Team Maintainer の活用
@@ -252,8 +299,8 @@
 Rulesets は Organization Owner（IT 部）が設定・管理し、対象リポジトリに自動適用されるため、
 各プロジェクトチームがリポジトリごとに設定する必要はありません。
 
-※ リポジトリ単位の Branch protection rules ではリポジトリの Admin 権限が必要ですが、
-Organization Rulesets を利用することで、各チームに Admin 権限を付与せずにブランチ保護を実現できます。
+※ Organization Rulesets を利用することで、ブランチ保護を Organization 全体で一元管理できます。
+リポジトリ Admin 権限を持つ Team がある場合でも、Organization Rulesets による保護が優先されます。
 
 ### 7.2 デフォルトブランチ（main / master）の保護
 
@@ -367,7 +414,7 @@ Organization Rulesets で、すべてのアクティブなリポジトリのデ�
 
 ### 11.2 報告先
 
-* **一次報告先：** Organization Owner メンバー（Slack `#github-admin` / メール）
+* **一次報告先：** Organization Owner メンバー（[Teams help-github](https://teams.microsoft.com/l/channel/19%3Ad70b44e383e84df09d7632d7c5b61673%40thread.tacv2/help-github?groupId=f71761c3-8b43-47e8-93d0-8d143f393647&tenantId=cbb25906-c027-4adc-bac7-c4fc6b93690b) / メール）
 * **IT 部門：** it-is@hearst.co.jp
 
 ### 11.3 対応フロー
@@ -403,7 +450,7 @@ Organization Rulesets で、すべてのアクティブなリポジトリのデ�
 ## 14. 問い合わせ先
 
 * **GitHub Organization Owner（IT 部）：** リポジトリ作成、Team 作成、Org 設定変更等の依頼先
-  * Slack: `#github-admin`
+  * Teams: [help-github チャンネル](https://teams.microsoft.com/l/channel/19%3Ad70b44e383e84df09d7632d7c5b61673%40thread.tacv2/help-github?groupId=f71761c3-8b43-47e8-93d0-8d143f393647&tenantId=cbb25906-c027-4adc-bac7-c4fc6b93690b)
   * メール: it-is@hearst.co.jp
 * **GitHub Organization Owner メンバー：** masashirohiroi, michi55, mikikomiura, taku-hdj, yasuhirokojima-ops
 * **各プロジェクトの Team Maintainer：** Team メンバーの追加・削除等の日常運用
