@@ -103,7 +103,7 @@
 | 権限層 | 対象者 | できること |
 |---|---|---|
 | **Organization Owner** | IT 部メンバー | Org 設定変更、リポジトリ削除、Rulesets 管理、Team 作成 |
-| **Repository Admin** | 業務上必要なプロジェクト管理者 | Webhooks・Secrets 管理、リポジトリ設定の変更（※ IT 部の承認が必要） |
+| **Repository Admin** | 業務上必要なプロジェクト管理者 | Webhooks・Secrets 管理、リポジトリ設定の変更 |
 | **Team Maintainer** | 各プロジェクトのリーダー | 担当 Team のメンバー追加/削除 |
 | **Repository Maintain** | `{project}-managers` Team | PR 管理、ブランチ管理、リポジトリ設定の一部 |
 | **Repository Write** | `{project}` Team | コード変更、PR 作成、Issue 管理 |
