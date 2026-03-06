@@ -13,7 +13,7 @@
 |---|---|
 | **アカウント** | 社員は `-hdj` サフィックス付きの専用アカウントを作成。表示名は `氏名(HDJ)` 形式 |
 | **2FA** | 全メンバー必須。未設定は Organization から自動除外 |
-| **リポジトリ作成** | Private は全メンバーが作成可。Public の作成は IT 部（Owner）に依頼 |
+| **リポジトリ作成** | Public・Private ともに全メンバーが作成可。ただし **Public リポジトリの作成はポリシー上 IT 部の承認が必要** |
 | **権限管理** | 個人への直接付与は禁止。Team 単位で最小権限を付与 |
 | **ブランチ保護** | デフォルトブランチへの直接 push 禁止。Organization Rulesets で一括管理 |
 | **マージ方式** | 原則 **Squash and merge**。変更理由がある場合はリポジトリのルールに明記 |
@@ -102,7 +102,7 @@
 
 | 権限層 | 対象者 | できること |
 |---|---|---|
-| **Organization Owner** | IT 部メンバー | Org 設定変更、リポジトリ作成/削除、Rulesets 管理、Team 作成 |
+| **Organization Owner** | IT 部メンバー | Org 設定変更、リポジトリ削除、Rulesets 管理、Team 作成 |
 | **Repository Admin** | 業務上必要なプロジェクト管理者 | Webhooks・Secrets 管理、リポジトリ設定の変更（※ IT 部の承認が必要） |
 | **Team Maintainer** | 各プロジェクトのリーダー | 担当 Team のメンバー追加/削除 |
 | **Repository Maintain** | `{project}-managers` Team | PR 管理、ブランチ管理、リポジトリ設定の一部 |
@@ -110,10 +110,11 @@
 
 ### 4.2 IT 部への依頼が必要な操作
 
-以下の操作は Organization Owner 権限が必要なため、IT 部への依頼が必要です。
+以下の操作は Organization Owner 権限が必要、またはポリシー上 IT 部への依頼・承認が必要です。
 依頼は [Microsoft Teams の help-github チャンネル](https://teams.microsoft.com/l/channel/19%3Ad70b44e383e84df09d7632d7c5b61673%40thread.tacv2/help-github?groupId=f71761c3-8b43-47e8-93d0-8d143f393647&tenantId=cbb25906-c027-4adc-bac7-c4fc6b93690b)またはメール（it-is@hearst.co.jp）で受け付けます。
 
-* リポジトリの新規作成・削除・可視性変更
+* **パブリックリポジトリの新規作成**（技術的には全メンバーが作成可能ですが、**ポリシー上 IT 部の承認が必要**です。作成前に必ず申請してください）
+* リポジトリの削除・可視性変更
 * Team の新規作成・削除
 * Outside Collaborator の招待
 * Organization Rulesets の変更
@@ -155,7 +156,7 @@
 |---|---|---|
 | デフォルトリポジトリ権限 | `None` | メンバーは Team 経由でのみリポジトリにアクセス |
 | リポジトリ作成（Private） | **全メンバー可** | Private リポジトリはメンバーが直接作成可能 |
-| リポジトリ作成（Public） | **Owner のみ** | Public リポジトリの作成は IT 部に依頼 |
+| リポジトリ作成（Public） | **全メンバー可**（要承認） | 技術的には全メンバーが作成可能。ただし**ポリシー上 IT 部の承認が必要**なため、作成前に必ず申請すること |
 | リポジトリ削除 | **Owner のみ** | 誤削除防止のため、IT 部のみが実施 |
 | リポジトリ可視性の変更 | **Owner のみ** | Private → Public への意図しない変更を防止 |
 | 外部コラボレーターの招待 | **Owner のみ** | 権限管理を IT 部に集約 |
