@@ -15,7 +15,7 @@
 | **2FA** | 全メンバー必須。未設定は Organization から自動除外 |
 | **リポジトリ作成** | Public・Private ともに全メンバーが作成可。ただし **Public リポジトリの作成はポリシー上 IT 部の承認が必要** |
 | **権限管理** | 個人への直接付与は禁止。Team 単位で最小権限を付与 |
-| **ブランチ保護** | デフォルトブランチへの直接 push 禁止。Organization Rulesets で一括管理 |
+| **ブランチ保護** | Organization Rulesets で force push・ブランチ削除を禁止。PR 必須化等はリポジトリ単位での設定を推奨 |
 | **マージ方式** | 原則 **Squash and merge**。変更理由がある場合はリポジトリのルールに明記 |
 | **セルフマージ** | 可否はリポジトリごとにルールを明確化すること |
 | **Require up to date** | Organization Rulesets でデフォルト有効。リポジトリ単位での緩和も許容 |
