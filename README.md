@@ -19,6 +19,7 @@
 | **マージ方式** | 原則 **Squash and merge**。変更理由がある場合はリポジトリのルールに明記 |
 | **セルフマージ** | 可否はリポジトリごとにルールを明確化すること |
 | **Require up to date** | Organization Rulesets でデフォルト有効。リポジトリ単位での緩和も許容 |
+| **テンプレート** | 新規リポジトリは [`general-template`](https://github.com/Hearst-Fujingaho-JP/general-template) をテンプレートとして作成 |
 | **ベンダー退出** | 契約終了日に Organization から削除。Team Maintainer が事前に Team から削除 |
 | **インシデント** | 漏洩・不正アクセス等は即座に IT 部へ報告（Teams help-github / it-is@hearst.co.jp） |
 
@@ -308,6 +309,16 @@ Team は **組織（部署）単位** と **プロジェクト単位** の 2 種
 |---|---|---|
 | `README.md` | 必須 | プロジェクト概要、セットアップ手順、デプロイ方法 |
 | `.gitignore` | 必須 | 不要ファイルのコミット防止 |
+
+### 6.6 テンプレートリポジトリ
+
+新規リポジトリを作成する際は、[`general-template`](https://github.com/Hearst-Fujingaho-JP/general-template) をテンプレートとして使用してください。`README.md` のひな型と `.gitignore` が含まれており、必要な項目を埋めるだけで運用を開始できます。
+
+#### 使い方
+
+1. GitHub の新規リポジトリ作成画面で **"Repository template"** に `general-template` を選択
+2. リポジトリ名・可視性を設定して作成
+3. `README.md` の各項目を埋める
 
 ---
 
