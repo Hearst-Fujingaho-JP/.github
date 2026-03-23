@@ -159,9 +159,9 @@
 | リポジトリ作成（Public） | **全メンバー可**（要承認） | 技術的には全メンバーが作成可能。ただし**ポリシー上 IT 部の承認が必要**なため、作成前に必ず申請すること |
 | リポジトリ削除 | **Owner のみ** | 誤削除防止のため、IT 部のみが実施 |
 | リポジトリ可視性の変更 | **Owner のみ** | Private → Public への意図しない変更を防止 |
-| 外部コラボレーターの招待 | **Owner のみ** | 権限管理を IT 部に集約 |
+| 外部コラボレーターの招待 | **全メンバー可** | Team プランでは制限不可。GitHub Enterprise が必要。 |
 | リポジトリのフォーク | **禁止** | コードの意図しない外部流出を防止 |
-| Pages の作成 | **Owner のみ** | 意図しない公開コンテンツの作成を防止 |
+| Pages の作成 | **全メンバー可** | Team プランでは制限不可のため、メンバーに許可 |
 | Team の作成 | **Owner のみ** | Team の作成は IT 部が対応（日常運用は Team Maintainer に委任） |
 
 ### 4.6 セキュリティ機能（新規リポジトリのデフォルト）
@@ -171,8 +171,8 @@
 | Dependency graph | **有効** | 依存関係の可視化 |
 | Dependabot alerts | **有効** | 脆弱性のある依存パッケージの自動検出 |
 | Dependabot security updates | **有効** | 脆弱性修正の自動 PR 作成 |
-| Secret scanning | **有効** | コミットされた秘密情報の検出 |
-| Secret scanning push protection | **有効** | 秘密情報を含む push のブロック |
+| Secret scanning | **対応不可**（Team プラン。GitHub Enterprise が必要） | コミットされた秘密情報の検出 |
+| Secret scanning push protection | **対応不可**（Team プラン。GitHub Enterprise が必要） | 秘密情報を含む push のブロック |
 
 ※ 既存リポジトリについても順次有効化してください。
 
@@ -315,31 +315,36 @@ Team は **組織（部署）単位** と **プロジェクト単位** の 2 種
 
 ### 7.1 Organization Rulesets の活用
 
-ブランチ保護は **Organization Rulesets**（Organization レベルのルールセット）で一括管理します。
-Rulesets は Organization Owner（IT 部）が設定・管理し、対象リポジトリに自動適用されるため、
-各プロジェクトチームがリポジトリごとに設定する必要はありません。
+ブランチ保護は **Organization Rulesets**（Organization レベルのルールセット）と **リポジトリ単位の設定** を組み合わせて管理します。
+Rulesets は Organization Owner（IT 部）が設定・管理し、全リポジトリに自動適用されます。
 
-※ Organization Rulesets を利用することで、ブランチ保護を Organization 全体で一元管理できます。
-リポジトリ Admin 権限を持つ Team がある場合でも、Organization Rulesets による保護が優先されます。
+※ Organization Rulesets による保護は、リポジトリ Admin 権限を持つ Team がある場合でも優先されます。
 
-### 7.2 デフォルトブランチ（main / master）の保護
+### 7.2 Organization Rulesets で一括適用するルール（`default-branch-protection`）
 
-Organization Rulesets で、すべてのアクティブなリポジトリのデフォルトブランチに以下のルールを適用します：
+全リポジトリのデフォルトブランチに以下のルールを適用しています：
+
+| 設定項目 | 値 | 説明 |
+|---|---|---|
+| Block force pushes | **有効** | 履歴の改変を禁止 |
+| Block deletions | **有効** | デフォルトブランチの削除を禁止 |
+| Enforce for administrators | **有効** | 管理者にも同じルールを適用 |
+
+### 7.3 リポジトリ単位で設定を推奨するルール
+
+以下のルールはリポジトリの運用状況に応じて、各リポジトリの Branch protection rules または Repository Rulesets で設定してください：
 
 | 設定項目 | 推奨値 | 説明 |
 |---|---|---|
-| Require a pull request before merging | **有効** | 直接 push の禁止 |
+| Require a pull request before merging | **有効** | 直接 push の禁止。チームへの周知後に設定すること |
 | Dismiss stale pull request approvals | **有効** | 新しい push があった場合、過去の承認を取り消し |
 | Require status checks to pass | **有効（CI がある場合）** | CI/CD のパスを必須化 |
-| Require branches to be up to date | **有効**（リポジトリ単位で緩和可） | マージ前にブランチの最新化を必須化。運用上の理由がある場合はリポジトリの README 等にその理由を明記の上、緩和可 |
-| Enforce for administrators | **有効** | 管理者にも同じルールを適用 |
-| Block force pushes | **有効** | 履歴の改変を禁止 |
-| Block deletions | **有効** | デフォルトブランチの削除を禁止 |
+| Require branches to be up to date | **有効**（運用上の理由がある場合は緩和可） | マージ前にブランチの最新化を必須化。緩和する場合はリポジトリの README 等に理由を明記 |
 
-### 7.3 適用対象
+### 7.4 適用対象
 
-* 本番環境にデプロイされるリポジトリは **必須** とします
-* 個人の検証用・一時的なリポジトリは Rulesets の対象から除外できます（IT 部に依頼）
+* 本番環境にデプロイされるリポジトリは上記ルールの設定を **必須** とします
+* 個人の検証用・一時的なリポジトリは対象外とします
 
 ---
 
