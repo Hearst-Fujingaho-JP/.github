@@ -44,6 +44,41 @@
 
 ---
 
+## Git / GitHub が初めての方へ
+
+GitHub は、ソースコードだけでなく、手順書・仕様書・議事録・設定メモなどのドキュメント管理にも利用できます。
+エンジニア以外の方も、本 Organization 内のドキュメントを参照・編集する可能性があります。
+
+Git や GitHub に不慣れな方は、本ガイドラインを読む前、または実際に編集作業を行う前に、以下の資料を確認してください。
+
+### 最初に読むことを推奨する資料
+
+| 順番 | 資料 | 内容 |
+|---|---|---|
+| 1 | [GitHub Hello World](https://docs.github.com/ja/get-started/start-your-journey/hello-world) | GitHub の基本操作、Repository、Branch、Pull Request の概要 |
+| 2 | [GitHub Flow](https://docs.github.com/ja/get-started/using-github/github-flow) | Branch を作成し、Pull Request で変更を提案・反映する基本的な流れ |
+| 3 | [Git と GitHub の学習リソース](https://docs.github.com/ja/get-started/quickstart/git-and-github-learning-resources) | Git / GitHub を体系的に学ぶための公式資料 |
+
+### 最低限理解しておきたい用語
+
+| 用語 | 意味 |
+|---|---|
+| Repository | ファイルや変更履歴を管理する場所 |
+| Branch | 本番用のファイルに直接影響させず、変更作業を行うための作業場所 |
+| Commit | 変更内容を履歴として保存すること |
+| Pull Request | 変更内容をレビューしてもらい、反映を依頼する仕組み |
+| Review | Pull Request の内容を確認し、問題がないかチェックすること |
+| Merge | レビュー済みの変更を本体の Branch に取り込むこと |
+
+### ドキュメントを編集する際の基本方針
+
+* 直接 `main` ブランチを編集せず、Branch を作成して Pull Request を出してください
+* 変更理由が分かるように、Pull Request には概要と目的を書いてください
+* 内容に不安がある場合は、関係者または IT 部にレビューを依頼してください
+* 機密情報、個人情報、パスワード、API キーなどはドキュメントにも記載しないでください
+
+---
+
 ## 3. GitHub アカウントに関するルール
 
 ### 3.1 アカウント種別
