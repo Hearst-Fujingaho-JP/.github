@@ -29,9 +29,9 @@
 
 > `.github` repository > Releases / Tags
 
-- [ ] Semgrep 共通ワークフローの安定参照用タグ `v1.1` を作成
-  - 各リポジトリは `Hearst-Fujingaho-JP/.github/.github/workflows/semgrep.yml@v1.1` を参照
-  - 既存の `@v1` 参照も `@v1.1` に更新
+- [ ] Semgrep 共通ワークフローの安定参照用タグ `v1` を修正版コミットへ更新
+  - 各リポジトリは `Hearst-Fujingaho-JP/.github/.github/workflows/semgrep.yml@v1` を参照
+  - 後方互換性のある修正では、既存の `v1` タグを修正版へ付け替え
 
 ---
 
