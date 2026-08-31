@@ -260,7 +260,9 @@ jobs:
 * 中央ワークフローは `.github/.github/workflows/semgrep.yml` で管理します
 * Semgrep の実行環境は、公式ドキュメントで Semgrep CE の利用例として示されている `semgrep/semgrep` Docker image を使用します
 * `semgrep/semgrep-action` は deprecated / archived のため使用しません
+* デフォルトの `config: auto` は Semgrep のメトリクス送信を必要とするため、これを無効化する環境変数は設定しません
 * 各リポジトリは `@main` ではなく、原則として `@v1` などのタグを指定して呼び出します
+* `v1` は後方互換性のある修正を反映するため、必要に応じて修正版コミットへ付け替えます
 * 中央ワークフローを破壊的に変更する場合は、新しいメジャータグ（例：`v2`）を作成します
 * Semgrep の検出結果により workflow が失敗した場合は、内容を確認し、修正またはリスク受容の判断を行ってください
 
