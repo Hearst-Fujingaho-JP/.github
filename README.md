@@ -20,6 +20,7 @@
 | **セルフマージ** | 可否はリポジトリごとにルールを明確化すること |
 | **Require up to date** | Organization Rulesets でデフォルト有効。リポジトリ単位での緩和も許容 |
 | **テンプレート** | 新規リポジトリは [`general-template`](https://github.com/Hearst-Fujingaho-JP/general-template) をテンプレートとして作成 |
+| **SAST** | 全社共通の Semgrep Community Edition ワークフローを `.github` リポジトリから Reusable Workflow として提供 |
 | **ベンダー退出** | 契約終了日に Organization から削除。Team Maintainer が事前に Team から削除 |
 | **Copilot** | 個人ライセンスで利用する場合、GitHub 個人設定でデータを AI モデルの訓練に利用することを許可する設定を **無効（Disabled）** にすること |
 | **インシデント** | 漏洩・不正アクセス等は即座に IT 部へ報告（Teams help-github / it-is@hearst.co.jp） |
@@ -225,6 +226,41 @@ GitHub Copilot を **個人ライセンス**（Individual / Pro 等）で利用�
 | Secret scanning push protection | **対応不可**（Team プラン。GitHub Enterprise が必要） | 秘密情報を含む push のブロック |
 
 ※ 既存リポジトリについても順次有効化してください。
+
+### 4.7 SAST（Semgrep Community Edition）
+
+全社共通の SAST として、Semgrep Community Edition を利用します。
+Organization の `.github` リポジトリに Reusable Workflow を配置し、各リポジトリから呼び出す形で標準化します。
+
+中央管理するワークフロー：
+
+```yaml
+uses: Hearst-Fujingaho-JP/.github/.github/workflows/semgrep.yml@v1
+```
+
+各リポジトリでは、以下のような GitHub Actions workflow を追加してください：
+
+```yaml
+name: Semgrep
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  semgrep:
+    uses: Hearst-Fujingaho-JP/.github/.github/workflows/semgrep.yml@v1
+```
+
+#### 運用方針
+
+* 中央ワークフローは `.github/.github/workflows/semgrep.yml` で管理します
+* 各リポジトリは `@main` ではなく、原則として `@v1` などのタグを指定して呼び出します
+* 中央ワークフローを破壊的に変更する場合は、新しいメジャータグ（例：`v2`）を作成します
+* `.github` リポジトリが Private の場合は、Settings > Actions > General > Access で Organization 内リポジトリからの Reusable Workflow 呼び出しを許可してください
+* Semgrep の検出結果により workflow が失敗した場合は、内容を確認し、修正またはリスク受容の判断を行ってください
 
 ---
 
