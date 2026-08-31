@@ -236,7 +236,7 @@ Organization の `.github` リポジトリに Reusable Workflow を配置し、�
 中央管理するワークフロー：
 
 ```yaml
-uses: Hearst-Fujingaho-JP/.github/.github/workflows/semgrep.yml@v1
+uses: Hearst-Fujingaho-JP/.github/.github/workflows/semgrep.yml@v1.1
 ```
 
 各リポジトリでは、以下のような GitHub Actions workflow を追加してください：
@@ -252,7 +252,7 @@ on:
 
 jobs:
   semgrep:
-    uses: Hearst-Fujingaho-JP/.github/.github/workflows/semgrep.yml@v1
+    uses: Hearst-Fujingaho-JP/.github/.github/workflows/semgrep.yml@v1.1
 ```
 
 #### 運用方針
@@ -260,7 +260,9 @@ jobs:
 * 中央ワークフローは `.github/.github/workflows/semgrep.yml` で管理します
 * Semgrep の実行環境は、公式ドキュメントで Semgrep CE の利用例として示されている `semgrep/semgrep` Docker image を使用します
 * `semgrep/semgrep-action` は deprecated / archived のため使用しません
-* 各リポジトリは `@main` ではなく、原則として `@v1` などのタグを指定して呼び出します
+* デフォルトの `config: auto` は Semgrep のメトリクス送信を必要とするため、これを無効化する環境変数は設定しません
+* 各リポジトリは `@main` ではなく、原則として `@v1.1` などのタグを指定して呼び出します
+* 既存の `@v1` 参照は、今回の修正版を利用するため `@v1.1` に更新してください
 * 中央ワークフローを破壊的に変更する場合は、新しいメジャータグ（例：`v2`）を作成します
 * Semgrep の検出結果により workflow が失敗した場合は、内容を確認し、修正またはリスク受容の判断を行ってください
 
