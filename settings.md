@@ -27,11 +27,6 @@
 - ~~Secret scanning push protection を有効化（新規リポジトリのデフォルト）~~
   - **対応不可：Team プランでは利用不可。GitHub Enterprise が必要。**
 
-> `.github` repository > Settings > Actions > General > Access
-
-- [ ] `.github` リポジトリの Reusable Workflow を Organization 内リポジトリから呼び出せるように設定
-  - `.github` リポジトリが Private の場合は、**Accessible from repositories in the 'Hearst-Fujingaho-JP' organization** を有効化
-
 > `.github` repository > Releases / Tags
 
 - [ ] Semgrep 共通ワークフローの安定参照用タグ `v1` を作成

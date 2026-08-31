@@ -231,6 +231,7 @@ GitHub Copilot を **個人ライセンス**（Individual / Pro 等）で利用�
 
 全社共通の SAST として、Semgrep Community Edition を利用します。
 Organization の `.github` リポジトリに Reusable Workflow を配置し、各リポジトリから呼び出す形で標準化します。
+`.github` リポジトリは Public のため、Private リポジトリで必要となる Reusable Workflow の共有設定は不要です。
 
 中央管理するワークフロー：
 
@@ -257,9 +258,10 @@ jobs:
 #### 運用方針
 
 * 中央ワークフローは `.github/.github/workflows/semgrep.yml` で管理します
+* Semgrep の実行環境は、公式ドキュメントで Semgrep CE の利用例として示されている `semgrep/semgrep` Docker image を使用します
+* `semgrep/semgrep-action` は deprecated / archived のため使用しません
 * 各リポジトリは `@main` ではなく、原則として `@v1` などのタグを指定して呼び出します
 * 中央ワークフローを破壊的に変更する場合は、新しいメジャータグ（例：`v2`）を作成します
-* `.github` リポジトリが Private の場合は、Settings > Actions > General > Access で Organization 内リポジトリからの Reusable Workflow 呼び出しを許可してください
 * Semgrep の検出結果により workflow が失敗した場合は、内容を確認し、修正またはリスク受容の判断を行ってください
 
 ---

@@ -21,18 +21,12 @@ jobs:
   semgrep:
     name: Semgrep
     runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-
-      - name: Install Semgrep
-        run: python -m pip install --upgrade semgrep
 
       - name: Run Semgrep
         env:
