@@ -27,6 +27,11 @@
 - ~~Secret scanning push protection を有効化（新規リポジトリのデフォルト）~~
   - **対応不可：Team プランでは利用不可。GitHub Enterprise が必要。**
 
+> `.github` repository > Releases / Tags
+
+- [ ] Semgrep 共通ワークフローの安定参照用タグ `v1` を作成
+  - 各リポジトリは `Hearst-Fujingaho-JP/.github/.github/workflows/semgrep.yml@v1` を参照
+
 ---
 
 ## 2. メンバー権限の制限（優先度：高）
