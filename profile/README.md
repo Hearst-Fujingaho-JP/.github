@@ -1,12 +1,5 @@
-## Hearst-Fujingaho-JP Organization
+# Hearst-Fujingaho-JP Organization
 
-This organization hosts repositories for Hearst Digital Japan.
+Hearst Digital Japanのリポジトリを管理するOrganizationです。
 
-- Individual GitHub accounts only (suffix: `-hdj` for employees)
-- Display name: `Name (HDJ / Company)`
-- 2FA required for all members
-- Branch protection enabled on default branches
-- All access managed via Teams (minimum privilege)
-
-For full guidelines, see:
-https://github.com/Hearst-Fujingaho-JP/.github
+組織内リポジトリの構成・分類・運用ルールは、[.github-private](https://github.com/Hearst-Fujingaho-JP/.github-private) を参照してください。

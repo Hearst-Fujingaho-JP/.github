@@ -1,5 +1,7 @@
 # Organization 設定変更チェックリスト
 
+リポジトリの構成・命名・運用ルールの正本は、Privateリポジトリの [.github-private](https://github.com/Hearst-Fujingaho-JP/.github-private) にあります。このファイルは、Organization Owner（IT部）が実際のGitHub設定を確認・変更するための運用チェックリストです。
+
 ガイドラインに準拠するために必要な設定変更の一覧です。
 
 **実施者：** Organization Owner（IT 部）のみが実施可能です。
